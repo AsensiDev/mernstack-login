@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,7 +18,9 @@ const Register = () => {
         email,
         password,
       });
-      alert('Usuario registrado exitosamente');
+      // Login automático tras registro
+      await login(email, password);
+      navigate('/courses');
     } catch (error) {
       console.error('Error de registro', error);
     }
