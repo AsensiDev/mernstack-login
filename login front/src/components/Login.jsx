@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await login(email, password);
-            navigate('/profile'); 
-        } catch (error) {
-            alert('Error al iniciar sesión: ' + error.message);
-        }
-    };
+    e.preventDefault();
+    try {
+      await login(email, password);
+    } catch (error) {
+      alert('Error al iniciar sesión: ' + error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      navigate('/courses');
+    }
+  }, [user, navigate]);
 
   return (
     <div className="max-w-sm mx-auto mt-10">
