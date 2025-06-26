@@ -5,12 +5,10 @@ import useAuth from '../hooks/useAuth';
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuth();
 
-  if (!user) {
-    // Si no está autenticado, redirige al login
+  if (!user) { 
     return <Navigate to="/login" replace />;
   }
 
-  // Si está autenticado, muestra el contenido protegido
   return children;
 };
 
